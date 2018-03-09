@@ -2,16 +2,16 @@
 	<el-row class="container">
 		<el-col :span="24" class="header">
 			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName}}
+				{{collapsed?'':sysName}}			
 			</el-col>
 			<el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
-					<i class="fa fa-align-justify"></i>
+					<!-- <i class="fa fa-align-justify"></i> -->
 				</div>
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
-					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
+					<span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item>我的消息</el-dropdown-item>
 						<el-dropdown-item>设置</el-dropdown-item>
@@ -166,7 +166,7 @@
 						float: right;
 					}
 				}
-			}
+			}		
 			.logo {
 				//width:230px;
 				height:60px;
@@ -174,7 +174,7 @@
 				padding-left:20px;
 				padding-right:20px;
 				border-color: rgba(238,241,146,0.3);
-				border-right-width: 1px;
+				border-right-width: 0;
 				border-right-style: solid;
 				img {
 					width: 40px;
