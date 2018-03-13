@@ -107,7 +107,7 @@
 <script>
 	import util from '../../common/js/util'
 	//import NProgress from 'nprogress'
-	import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+	import { getOrganiztionList, getDemoData, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
 
 	export default {
 		data() {
@@ -163,7 +163,7 @@
 			},
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				// this.getUsers();
 			},
 			//获取用户列表
 			getUsers() {
@@ -171,14 +171,14 @@
 					page: this.page,
 					name: this.filters.name
 				};
-				this.listLoading = true;
+				this.listLoading = false;
 				//NProgress.start();
-				getUserListPage(para).then((res) => {
-					this.total = res.data.total;
-					this.users = res.data.users;
-					this.listLoading = false;
-					//NProgress.done();
-				});
+				// getOrganiztionList(para).then((res) => {
+				// 	this.total = res.data.total;
+				// 	this.users = res.data.users;
+				// 	this.listLoading = false;
+				// 	//NProgress.done();
+				// });
 			},
 			//删除
 			handleDel: function (index, row) {
@@ -292,7 +292,12 @@
 			}
 		},
 		mounted() {
-			this.getUsers();
+			// this.getUsers();
+			this.$http.get('my').then(res =>{
+				console.log("data", res.data);
+			}).catch(error =>{
+				console.log("Error Msg", error)
+			})
 		}
 	}
 

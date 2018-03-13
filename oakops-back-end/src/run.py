@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 import views, resources
 
@@ -21,4 +23,4 @@ def check_if_token_in_blacklist(decrypted_token):
 api.add_resource(resources.UserLogin, '/login')
 api.add_resource(resources.UserLogout, '/logout')
 api.add_resource(resources.SecretResource, '/my')
-api.add_resource(resources.TokenRefresh, '/tokenrefresh')
+api.add_resource(resources.TokenRefresh, '/refreshtoken')

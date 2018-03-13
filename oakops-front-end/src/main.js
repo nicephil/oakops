@@ -11,12 +11,14 @@ import Vuex from 'vuex'
 //import 'nprogress/nprogress.css'
 import routes from './routes'
 import Mock from './mock'
-Mock.bootstrap();
+// Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
+import AxiosPlugin from './common/js/AxiosPlugin'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)
+Vue.use(AxiosPlugin)
 
 //NProgress.configure({ showSpinner: false });
 
@@ -29,7 +31,14 @@ router.beforeEach((to, from, next) => {
   if (to.path == '/login') {
     sessionStorage.removeItem('user');
   }
-  let user = JSON.parse(sessionStorage.getItem('user'));
+
+  let user;
+  try{
+    user = JSON.parse(sessionStorage.getItem('user'));
+  }catch(err){
+    sessionStorage.removeItem('user');
+  }
+  
   if (!user && to.path != '/login') {
     next({ path: '/login' })
   } else {

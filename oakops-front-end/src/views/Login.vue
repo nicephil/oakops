@@ -16,55 +16,78 @@
 </template>
 
 <script>
-  import { requestLogin } from '../api/api';
+  import {
+    requestLogin
+  } from '../api/api';
   //import NProgress from 'nprogress'
   export default {
     data() {
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
+          account: '',
+          checkPass: ''
         },
         rules2: {
-          account: [
-            { required: true, message: '请输入账号', trigger: 'blur' },
+          account: [{
+              required: true,
+              message: '请输入账号',
+              trigger: 'blur'
+            },
             //{ validator: validaePass }
           ],
-          checkPass: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
+          checkPass: [{
+              required: true,
+              message: '请输入密码',
+              trigger: 'blur'
+            },
             //{ validator: validaePass2 }
           ]
         },
         checked: true
       };
     },
+    mounted: function() {
+      console.log("Mounted")
+    },
     methods: {
       handleReset2() {
         this.$refs.ruleForm2.resetFields();
       },
       handleSubmit2(ev) {
-        var _this = this;
-        this.$refs.ruleForm2.validate((valid) => {
+        var self = this;
+        self.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             //_this.$router.replace('/table');
-            this.logining = true;
+            self.logining = true;
             //NProgress.start();
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
-              } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
-              }
-            });
+            var loginParams = {
+              username: self.ruleForm2.account,
+              password: self.ruleForm2.checkPass
+            };
+            this.$http.post('login', loginParams)
+              .then(res => {        
+                self.logining = false; 
+                sessionStorage.setItem('user', JSON.stringify({
+                  username: loginParams.username,
+                  access_token: res.data.access_token,
+                  refresh_token: res.data.refresh_token
+                }));
+
+                var item = sessionStorage.getItem('user')
+
+                self.$router.push({
+                  path: '/table'
+                });                              
+              })
+              .catch(error => {
+                // 登录失败
+                // 验证后端返回的错误字段，如果匹配，提示用户
+                // axios 配置里必须要 return Promise.reject(error.response.data) 才能拿到错误字段
+                if (error.xxx == 'xxx') {
+                  alert('用户名或密码错误！')
+                }
+              })
           } else {
             console.log('error submit!!');
             return false;
@@ -73,7 +96,6 @@
       }
     }
   }
-
 </script>
 
 <style lang="scss" scoped>

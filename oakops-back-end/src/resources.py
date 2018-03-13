@@ -28,9 +28,13 @@ class UserLogin(Resource):
         data = parser.parse_args()
         try:
             if data['username'] != 'hui.he@oakridge.io' or data['password'] != 'oakridge':
-                return jsonify({"msg": "Bad username or password"}), 401
+                return {
+                    "error_code": 100100,
+                    "message": "Bad username or password"
+                }
 
             return {
+                'error_code': 0,
                 'message' : 'Login success',             
                 'access_token': create_access_token(identity = data['username']),
                 'refresh_token': create_refresh_token(identity = data['username'])
