@@ -1,61 +1,16 @@
+# -*- coding: UTF-8 -*-
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (jwt_required, jwt_refresh_token_required)
+import requests
+
+cloud_agent_root_url='http://cloud.oakridge.io/agent/cloud/v1'
 
 class OrganizationList(Resource):
-    @jwt_required
+    def __init__(self):
+        super(OrganizationList,self).__init__()
+
+    # @jwt_required
     def get(self):
-        return {
-            "error_code": 0,
-            "error_message": '',
-            "list":[
-                {
-                    "id": 1,
-                    "name": "Oakridge Biz",                                
-                    "parent_id": 0,
-                    "children": [
-                        {
-                            "id": 2,
-                            "name": "Hangzhou Site",
-                            "address": "",
-                            "country": "CN",
-                            "zond_id": "Asia/ShangHai",
-                            "parent_id": 1,
-                        },
-                        {
-                            "id": 3,
-                            "name": "US Site",
-                            "address": "",
-                            "country": "US",
-                            "zond_id": "America/Los_Angeles",
-                            "parent_id": 1,
-                        }                        
-                    ],
-                    "customer_type": 1
-                },
-                {
-                    "id": 100,
-                    "name": "OutSpace Biz",                                
-                    "parent_id": 0,
-                    "children": [
-                        {
-                            "id": 101,
-                            "name": "Mars Site",
-                            "address": "",
-                            "country": "CN",
-                            "zond_id": "Asia/ShangHai",
-                            "parent_id": 100,
-                        },
-                        {
-                            "id": 102,
-                            "name": "Earth Site",
-                            "address": "",
-                            "country": "US",
-                            "zond_id": "America/Los_Angeles",
-                            "parent_id": 100,
-                        }                        
-                    ],
-                    "customer_type": 2
-                }                
-            ]
-        }
+        res = requests.get(cloud_agent_root_url + "/organizations")
+        return res.json()

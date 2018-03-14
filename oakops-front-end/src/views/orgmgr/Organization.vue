@@ -17,7 +17,7 @@
 						<el-table  :data="props.row.children" border style="width: 100%">
 							<el-table-column prop="name" label="名称" width="180"></el-table-column>
 							<el-table-column prop="country" label="国家" width="180"></el-table-column>
-							<el-table-column prop="zond_id" label="时区"> </el-table-column>
+							<el-table-column prop="zone_id" label="时区"> </el-table-column>
 						</el-table>
 					</template>
     			</el-table-column>
@@ -49,24 +49,19 @@
 		methods: {
 			getOrganizations() {
 				this.listLoading = true;
-				this.$http.get('organization').then(res => {
+				this.$http.get('organizations').then(res => {
 						this.total = res.data.total;
 						this.organizations = res.data.list;
 						this.listLoading = false;
 					})
-					.catch(error => {
+					.catch(error => {						
 						this.listLoading = false;
-						this.$message.error(error.data.error_message);
+						// this.$message.error(error);
 					})
 			}
 		},
 		mounted() {
 			this.getOrganizations();
-			this.$http.get('my').then(res => {
-				console.log("data", res.data);
-			}).catch(error => {
-				console.log("Error Msg", error)
-			})
 		}
 	}
 </script>
