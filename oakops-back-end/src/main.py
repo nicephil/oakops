@@ -35,4 +35,11 @@ api.add_resource(authentication.TokenRefresh, baseurl + 'refreshtoken')
 api.add_resource(organization.OrganizationList, baseurl + 'organizations')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    import argparse
+    parser = argparse.ArgumentParser(description='manual to this script')
+    parser.add_argument('--port', type=int, default = 5000)
+    parser.add_argument('--cloud-agent-root-url', type=str, default = "http://cloud.oakridge.io:5000/agent/cloud/v1/")
+    args = parser.parse_args()
+    port = args.port
+    organization.cloud_agent_root_url = args.cloud_agent_root_url
+    app.run(host='0.0.0.0', port=port)

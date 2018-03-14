@@ -25,5 +25,10 @@ def agent():
      return "cloud agent!"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001)
+    import argparse
+    parser = argparse.ArgumentParser(description='manual to this script')
+    parser.add_argument('--port', type=int, default = 5000)
+    args = parser.parse_args()
+    port = args.port
+    app.run(host='0.0.0.0', port=port)
 
