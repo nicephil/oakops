@@ -12,18 +12,18 @@ from organization import OrganizationList
 
 
 
-application = Flask(__name__)
-application.config.update(RESTFUL_JSON=dict(ensure_ascii=False))
-api = Api(application)
+app = Flask(__name__)
+app.config.update(RESTFUL_JSON=dict(ensure_ascii=False))
+api = Api(app)
 
 ROOT_URL_v0 = "/agent/cloud/v1/"
 
-api.add_resource(OrganizationList,  ROOT_URL_v0+"organization")
+api.add_resource(OrganizationList,  ROOT_URL_v0+"organizations")
 
-@application.route("/")
-def app():
+@app.route("/")
+def agent():
      return "cloud agent!"
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5001)
 

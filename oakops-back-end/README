@@ -1,5 +1,5 @@
 install:
-pip install flask flask-restful flask-jwt-extended passlib flask-sqlalchemy flask-cors
+pip install flask flask-restful flask-jwt-extended passlib flask-sqlalchemy flask-cors  requests
 
 DEBUG MODE
 FLASK_APP=run.py FLASK_DEBUG=1 flask run
