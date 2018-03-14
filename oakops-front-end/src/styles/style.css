@@ -1,0 +1,84 @@
+/* Override the Element UI */
+/* .el-input__inner {
+    height: 40px  !important;
+    color: rgb(182,186,192) !important;
+    border: 1px solid #ededed !important;
+    background: #fbfbfb !important;
+} */
+
+[v-cloak] {
+    display: none !important;
+}
+
+.loginCon .el-form-item {
+    margin-bottom: 14px !important;
+}
+
+.log-relative {
+    margin: 0;
+}
+
+/* Oakridge Style */
+.loginCon .loginBtn{
+    width: 320px;
+    height:40px;
+    border-top:1px solid #5497c1;
+    border-radius: 3px;
+    background-image:linear-gradient(0deg, #5fa9d8, #4e8eb6);
+    font-size: 16px;
+    color: #fff;
+}
+
+.registerBtn{
+    width: 100%;
+    height:40px;
+    border-top:1px solid #5497c1;
+    border-radius: 3px;
+    background-image:linear-gradient(0deg, #5fa9d8, #4e8eb6);
+    font-size: 16px;
+    color: #fff;
+}
+
+
+.oak-btn{
+    min-width: 100px;
+    background-image: linear-gradient(0deg, #5ea8d7, #4e8eb6) !important;
+    color: #fff;
+}
+
+.oak-btn-default{
+    min-width: 100px;
+    background-image: linear-gradient(0deg, #fdfefe, #f4f5f8) !important;
+}
+
+.oak-btn-danger{
+    min-width: 100px;
+    background-image:linear-gradient(0deg, #dd6d6d, #b75a5a) !important;
+}
+
+
+.sideMain .addBusiness {
+    padding: 15px 0;
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.full-width{
+    width: 100%;
+}
+
+.mr10{
+    margin-right: 10px;    
+}
+
+.site-del-form{
+    margin: 10px 70px;
+}
+
+.cursor-pointer{
+    cursor: pointer
+}

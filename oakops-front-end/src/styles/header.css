@@ -1,0 +1,229 @@
+/*header*/
+#oak-header{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background: #e5ecf2;
+    box-shadow:0 0 30px rgba(0,0,0,.3);
+}
+
+#oak-header .heaer-left{
+    width: 154px;
+}
+#oak-header .logo{
+    margin-left: 0 0 0 20px;
+    width: 119px;
+    height: 45px;
+    display: block;
+    background: url("../assets/ico/oakridge-logo.png") no-repeat;
+    background-size: 119px 45px;
+}
+
+#oak-header .header-right {
+    margin-left: 230px;
+    padding: 0px 30px 0 0;
+}
+
+#oak-header .header-right .fa-sort-down{
+    font-size: 18px;
+    float: left;
+    margin: 0 0 0 10px;
+}
+.headIco{
+    width: 38px;
+    height: 22px;
+    display: inline-block;
+    float: left;
+    background-size: 38px 22px;
+}
+.headIco.user{
+    width: 21px;
+    background:url("../assets/ico/user.png") no-repeat;
+    background-size: 20px 21px;
+}
+.headIco.message{
+    width: 28px;
+    background:url("../assets/ico/message.png") no-repeat;
+    background-size: 21px 22px;
+    position: relative;
+}
+.headIco.message i{
+    padding: 1px 5px;
+    background: #ff7800;
+    font-size: 12px;
+    color: #fff;
+    position: absolute;
+    border-radius: 100%;
+    font-style: normal;
+    top: -5px;
+    left: 18px;
+}
+.headIco.china{
+    background: url("../assets/ico/flag-china.png") no-repeat;
+}
+.headIco.usa{
+    background: url("../assets/ico/flag-usa.png") no-repeat;background-size: 38px 22px;
+}
+.heaer #heaer-right .btn-group > .btn {
+    border: 0;
+    background-color: rgba(0,0,0,0.1);
+    color: rgba(255,255,255,0.75);
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    line-height: normal;
+    margin-left: 5px;
+    height: 33px;
+}
+
+.heaer #heaer-right .btn-group > .btn:hover {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.heaer #heaer-right .btn-group > .btn:focus,
+.heaer #heaer-right .btn-group > .btn:active {
+    color: #fff;
+    background-color: rgba(0,0,0,0.3);
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.heaer #heaer-right .btn-group .btn .badge {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #fff;
+    color: #000;
+    margin-left: 2px;
+    padding: 2px 6px;
+}
+
+.btn-group-notification > .btn {
+    padding: 7px 10px;
+}
+
+.btn-group-messages > .btn {
+    padding: 6px 9px 8px 9px;
+}
+
+.btn-group-option > .btn {
+    padding: 7px 12px;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu {
+    -moz-box-shadow: 3px 3px 0 rgba(0,0,0,0.05);
+    -webkit-box-shadow: 3px 3px 0 rgba(0,0,0,0.05);
+    box-shadow: 3px 3px 2px rgba(0,0,0,0.05);
+    margin-top: 13px;
+    border-top: 0;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border-color: #ccc;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu:after {
+    border-bottom: 6px solid #fff;
+    border-left: 6px solid rgba(0,0,0,0);
+    border-right: 6px solid rgba(0,0,0,0);
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: -6px;
+    right: 10px;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu li {
+    position: relative;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu li a {
+    font-size: 12px;
+    padding: 8px 15px;
+    color: #555;
+    -moz-transition: all 0.2s ease-out 0s;
+    -webkit-transition: all 0.2s ease-out 0s;
+    transition: all 0.2s ease-out 0s;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu li a:hover {
+    color: #333;
+    background-color: #E4E7EA;
+}
+
+.heaer #heaer-right .btn-group .dropdown-menu .divider {
+    margin: 5px 0;
+}
+
+.heaer #heaer-right .btn-group-option .dropdown-menu li .glyphicon,
+.heaer #heaer-right .btn-group-option .dropdown-menu li .fa {
+    margin-right: 10px;
+}
+
+.heaer #heaer-right .btn-group-option .dropdown-menu {
+    min-width: 180px;
+    margin-top: 13px;
+}
+#oak-header .btn-default{
+    color: #333;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#oak-header .btn-default:active:hover, .btn-default.active:hover, .open > .dropdown-toggle.btn-default:hover, .btn-default:active:focus, .btn-default.active:focus, .open > .dropdown-toggle.btn-default:focus, .btn-default:active.focus, .btn-default.active.focus, .open > .dropdown-toggle.btn-default.focus{
+    color: #333;
+    background-color: transparent;
+    border-color: transparent;
+}
+#oak-header .dropdown-menu.w86{
+    min-width: 90px;
+}
+#oak-header .dropdown-menu.w261{
+    min-width: 261px;
+    height: 200px;
+    padding: 0;
+}
+#oak-header .dropdown-menu.w261 .title{
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 4px 4px 0 0;
+    border-bottom:1px solid rgba(0, 0, 0, .15);
+    background: rgba(242, 242, 242, 1);
+}
+#oak-header .dropdown-menu.w261 .ulCon{
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+}
+#oak-header .dropdown-menu.w261 .ulCon li{
+    width: 50%;
+    height: 82px;
+    text-align: center;
+    float: left;
+}
+#oak-header .dropdown-menu.w261 .ulCon a{
+    color: #333;
+}
+#oak-header .dropdown-menu.w261 .ulCon li i{
+    margin-top: 20px;
+    font-size: 22px;
+}
+#oak-header .dropdown-menu.w261 .ulCon li p{
+    line-height: 18px;
+}
+#oak-header .dropdown-menu.w261 a.exit{
+    color: #333;
+    display: block;
+    text-align: center;
+}
+#oak-header .dropdown-menu.w51{
+    width: 51%;
+    right: 0;
+}
