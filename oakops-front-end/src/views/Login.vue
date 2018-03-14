@@ -75,16 +75,12 @@
                 var item = sessionStorage.getItem('user')
 
                 self.$router.push({
-                  path: '/table'
+                  path: '/organization'
                 });                              
               })
               .catch(error => {                
                 self.logining = false; 
-                if(error.data.error_code === 100100){
-                  this.$message.error('用户名或者密码错误，请检查后重试');
-                }else{
-                  this.$message.error('登录失败，请检查后重试');
-                }
+                this.$message.error(error.dta.error_message);
               })            
           } else {
             console.log('error submit!!');
@@ -97,10 +93,6 @@
 </script>
 
 <style lang="scss" scoped>
-  // @import 'src/styles/base.css';
-  // @import 'src/styles/style.css';
-  // @import 'src/styles/bootstrap.css';
-
   .login-container {
     /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
     -webkit-border-radius: 5px;

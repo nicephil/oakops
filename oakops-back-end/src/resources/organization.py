@@ -1,7 +1,9 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import (jwt_required, jwt_refresh_token_required)
 
 class OrganizationList(Resource):
+    @jwt_required
     def get(self):
         return {
             "error_code": 0,

@@ -14,6 +14,8 @@
 </script>
 
 <style lang="scss">
+	// @import './styles/bootstrap.css';
+
 	body {
 		margin: 0px;
 		padding: 0px;

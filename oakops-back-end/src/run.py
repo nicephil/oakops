@@ -9,7 +9,7 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
-import views, resources
+import resources
 
 jwt = JWTManager(app)
 # JWT Configuration

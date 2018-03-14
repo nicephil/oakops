@@ -7,13 +7,17 @@ import Vuex from 'vuex'
 import 'font-awesome/css/font-awesome.min.css'
 import AxiosPlugin from './common/AxiosPlugin'
 import router from './routes'
+// import BootstrapVue from 'bootstrap-vue'
 
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import Mock from './mock'
 // Mock.bootstrap();
 
 Vue.use(ElementUI)
 Vue.use(Vuex)
 Vue.use(AxiosPlugin)
+// Vue.use(BootstrapVue);
 
 router.beforeEach((to, from, next) => {
   if (to.path == '/login') {
