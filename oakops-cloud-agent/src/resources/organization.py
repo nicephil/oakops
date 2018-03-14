@@ -3,7 +3,7 @@
 from flask_restful import Resource
 import json
 
-from db import DBUtils
+from common import DBUtils
 
 
 class OrganizationList(Resource):

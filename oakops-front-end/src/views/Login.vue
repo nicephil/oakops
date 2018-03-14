@@ -1,28 +1,26 @@
 <template>
+ <div class="loginBg">
   <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-    <h3 class="title">系统登录</h3>
+    <h3 class="title">Oakridge运控平台</h3>
     <el-form-item prop="account">
       <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="checkPass">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
-    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+    <!-- <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox> -->
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
       <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
     </el-form-item>
   </el-form>
+</div>
 </template>
 
 <script>
-  import {
-    requestLogin
-  } from '../api/api';
-  //import NProgress from 'nprogress'
   export default {
     data() {
-      return {
+      return {     
         logining: false,
         ruleForm2: {
           account: '',
@@ -48,7 +46,7 @@
       };
     },
     mounted: function() {
-      console.log("Mounted")
+      // console.log("Mounted")
     },
     methods: {
       handleReset2() {
@@ -80,14 +78,14 @@
                   path: '/table'
                 });                              
               })
-              .catch(error => {
-                // 登录失败
-                // 验证后端返回的错误字段，如果匹配，提示用户
-                // axios 配置里必须要 return Promise.reject(error.response.data) 才能拿到错误字段
-                if (error.xxx == 'xxx') {
-                  alert('用户名或密码错误！')
+              .catch(error => {                
+                self.logining = false; 
+                if(error.data.error_code === 100100){
+                  this.$message.error('用户名或者密码错误，请检查后重试');
+                }else{
+                  this.$message.error('登录失败，请检查后重试');
                 }
-              })
+              })            
           } else {
             console.log('error submit!!');
             return false;
@@ -99,6 +97,10 @@
 </script>
 
 <style lang="scss" scoped>
+  // @import 'src/styles/base.css';
+  // @import 'src/styles/style.css';
+  // @import 'src/styles/bootstrap.css';
+
   .login-container {
     /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
     -webkit-border-radius: 5px;

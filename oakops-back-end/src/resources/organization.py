@@ -8,5 +8,5 @@ class OrganizationList(Resource):
         super(OrganizationList,self).__init__()
 
     def get(self):
-        res = requests.get("http://localhost:5001/agent/cloud/v1/organizations")
+        res = requests.get("http://cloud.oakridge.io:5000/agent/cloud/v1/organizations")
         return res.json()

@@ -52,7 +52,10 @@ class UserLogout(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         RevokedTokenModel.addToBlacklist(jti)
-        return {"msg": "Successfully logged out"}
+        return {
+            "error_code": 0,
+            "msg": "Successfully logged out"
+        }
 
 class TokenRefresh(Resource):
     @jwt_refresh_token_required
@@ -70,5 +73,6 @@ class SecretResource(Resource):
     @jwt_required
     def get(self):
         return {
+            "error_code": 0,
             'answer': 42
         }           

@@ -1,0 +1,89 @@
+/*login*/
+.loginBg {
+    background:  url("../assets/photo/loginBg.jpg") no-repeat fixed center bottom;
+}
+
+/*注册*/
+.registerCon{
+    width: 500px;
+    /* height: 480px; */
+    position: absolute;
+    background: #fff;
+    border-radius: 8px;
+    left: 50%;
+    top: 18%;
+    margin-bottom: 50px;
+    margin-left: -220px;
+    z-index: 101;
+}
+.registerBot{
+    width: 100%;
+    padding: 0 59px;
+}
+.registerBot ul{
+    width: 100%;
+}
+.registerBot ul li{
+    width: 125px;
+    text-align: center;
+}
+.registerBot ul li i.weixin{
+    width: 50px;
+    height: 46px;
+    background: url("../assets/ico/weixin-reg.png") no-repeat;
+    background-size: 50px 46px;
+    display: inline-block;
+}
+.registerBot ul li i.google{
+    width: 46px;
+    height: 48px;
+    background: url("../assets/ico/google-reg.png") no-repeat;
+    background-size: 46px 48px;
+    display: inline-block;
+}
+.registerBot ul li p{
+    line-height: 30px;
+}
+.registerBot ul li a{
+    color: #4f5358;
+}
+.registerContent .form-control{
+    padding-left: 40px;
+}
+.registerContent .form-horizontal .form-group .input-group-addon{
+    width: 30px;
+    height: 40px!important;
+    line-height: 26px!important;
+    border:none;
+    position: absolute;
+    left: 1px;
+    top:1px;
+    border-radius: 4px 0 4px 0;
+    background: transparent;
+    font-size: 18px;
+    color: #ccc;
+}
+.registerContent .form-horizontal .form-group .input-group-addon i.i1{
+    margin-top: 3px;
+    width: 12px;
+    height: 16px;
+    background: url("../assets/ico/userName.png") no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+}
+.registerContent .form-horizontal .form-group .input-group-addon i.i2{
+    margin-top: 4px;
+    width: 16px;
+    height: 17px;
+    background: url("../assets/ico/email.png") no-repeat;
+    background-size: 16px 17px;
+    display: inline-block;
+}
+.registerContent .form-horizontal .form-group .input-group-addon i.i3{
+    margin-top: 4px;
+    width: 11px;
+    height: 16px;
+    background: url("../assets/ico/pasword.png") no-repeat;
+    background-size: 11px 16px;
+    display: inline-block;
+}
