@@ -6,7 +6,8 @@ config = {
     'password': 'oakridge',
     'port': 3306,
     'database': 'authc',
-    'charset': 'utf8'
+    'charset': 'utf8',
+    'use_unicode' : True
 }
 
 class DBUtils:
