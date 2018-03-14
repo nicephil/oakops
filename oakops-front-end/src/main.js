@@ -2,24 +2,18 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
 import './styles/element-variables.scss'
-import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-import routes from './routes'
 import 'font-awesome/css/font-awesome.min.css'
-import AxiosPlugin from './common/js/AxiosPlugin'
+import AxiosPlugin from './common/AxiosPlugin'
+import router from './routes'
 
 // import Mock from './mock'
 // Mock.bootstrap();
 
 Vue.use(ElementUI)
-Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(AxiosPlugin)
-
-const router = new VueRouter({
-  routes
-})
 
 router.beforeEach((to, from, next) => {
   if (to.path == '/login') {

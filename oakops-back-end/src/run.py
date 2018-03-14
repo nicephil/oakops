@@ -3,7 +3,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
 
-from resources import authentication
+from resources import authentication, organization
 
 app = Flask(__name__)
 api = Api(app)
@@ -22,7 +22,11 @@ def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return authentication.RevokedTokenModel.is_jti_blacklisted(jti)
 
-api.add_resource(authentication.UserLogin, '/login')
-api.add_resource(authentication.UserLogout, '/logout')
-api.add_resource(authentication.SecretResource, '/my')
-api.add_resource(authentication.TokenRefresh, '/refreshtoken')
+baseurl = '/ops/v1/'
+# Authentication
+api.add_resource(authentication.UserLogin, baseurl + 'login')
+api.add_resource(authentication.UserLogout, baseurl + 'logout')
+api.add_resource(authentication.SecretResource, baseurl + 'my')
+api.add_resource(authentication.TokenRefresh, baseurl + 'refreshtoken')
+# Organization
+api.add_resource(organization.OrganizationList, baseurl + 'organization')
