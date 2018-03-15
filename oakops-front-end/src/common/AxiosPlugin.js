@@ -4,7 +4,8 @@ import router from './../routes'
 
 export const Axios = axios.create({
   baseURL: 'http://localhost:5000/ops/v1/', 
-  timeout: 5000,
+    // baseURL: 'http://ops.oakridge.vip:5000/ops/v1/', 
+    timeout: 5000,
 })
 
 Axios.interceptors.request.use(config => {        
