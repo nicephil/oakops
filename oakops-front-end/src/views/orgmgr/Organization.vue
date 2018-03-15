@@ -6,7 +6,8 @@
 					<el-form-item label="按站点名称搜索">
 						<el-col :span="16">
 							<el-form-item prop="date1">
-								<el-input placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+								<!-- <el-input placeholder="请输入站点名称" v-model="filter_name" prefix-icon="el-icon-search" @change="searchBySiteName" clearable></el-input> -->
+								<el-autocomplete style="width: 100%;" v-model="filter_name" :trigger-on-focus="true" :fetch-suggestions="querySearchAsync" placeholder="请输入站点名称" @select="handleSelect"></el-autocomplete>
 							</el-form-item>
 						</el-col>
 						<el-col :span="4" style="padding-left: 20px;">
@@ -15,9 +16,9 @@
 						</el-col>
 					</el-form-item>					
 					<el-form-item label="客户类型" v-show="showMoreQuery">
-						<el-checkbox-group>
-							<el-checkbox label="Alpha" name="type"></el-checkbox>
-							<el-checkbox label="Beta" name="type"></el-checkbox>
+						<el-checkbox-group v-model="cutomerTypeList" @change="cutomerTypeChange">
+							<el-checkbox label="Alpha" key="2"></el-checkbox>
+							<el-checkbox label="Beta" key="1"></el-checkbox>
 						</el-checkbox-group>
 					</el-form-item>		
 					<el-form-item label="站点状态" v-show="showMoreQuery">
@@ -70,6 +71,7 @@
 	export default {
 		data() {
 			return {
+				cutomerTypeList: [],
 				showMoreQuery: false,
 				filters: {
 					name: ''
@@ -79,10 +81,70 @@
 				total: 0,
 				page: 1,
 				page_size: 10,
-				sort: 'id desc'
+				sort: 'id desc',
+				filter_cond: '',
+				filter_name: '',
+				filter_type: '',
+				filter_status: ''
 			}
 		},
 		methods: {	
+			cutomerTypeChange(val){	
+				this.page = 1;		
+				if(val.length === 1){
+					if(val[0] === 'Alpha'){
+						this.filter_type = "customer_type=2";
+					}else if(val[0] === 'Beta'){
+						this.filter_type = "customer_type=1";
+					}
+				}else if(val.length === 2){
+					this.filter_type = "customer_type=1 or customer_type=2";						
+				}else{
+					this.filter_type = "";
+				}
+				this.calculateFilter();
+				this.getSites();
+			},
+			querySearchAsync(queryString, callback) {	
+				var self = this;						
+				this.$http.get('organizations/sites', { params: {				
+					page_size : 10,				
+					cond: "name like '%" + queryString +"%'"
+				}}).then(res => {	
+					res.data.list.forEach((item) => {
+						item.value = item.name;
+					})	
+					if(res.data.list.length === 0){
+						res.data.list.push({
+							value: "没有搜索到结果, 点击选项显示所有站点信息",
+							name: ''						
+						})					
+					}else{
+						res.data.list.unshift({
+							value: "点击选项显示所有站点信息",
+							name: ''						
+						})	
+					}
+
+					callback(res.data.list);				
+				})
+			},
+			handleSelect(item) {
+				this.filter_name = item.name;
+				this.calculateFilter();
+				this.getSites();
+			},
+			calculateFilter(){
+				var conds = [];			
+				if(this.filter_name.length != 0){
+					conds.push("name like '%" + this.filter_name + "%'");
+				}
+				if(this.filter_type.length != 0){
+					conds.push(this.filter_type);
+				}		
+				this.filter_cond = conds.join(' and ');	
+				console.log("this.filter_cond", this.filter_cond);		
+			},
 			sortChange(sortParams){
 				var order = "desc"
 				if( sortParams.order === 'ascending' ){
@@ -110,13 +172,16 @@
 				this.getSites();
 			},
 			getSites() {			
-				var self = this;
+				var self = this;			
 				var params = {
 					page : self.page,
 					page_size : self.page_size,
-					sort: self.sort,
-					// cond: ""
+					sort: self.sort,				
+					cond: self.filter_cond
 				};
+				if(self.filter_cond.length === 0){
+					delete params.cond;
+				}
 				this.listLoading = true;
 				this.$http.get('organizations/sites', { params: params }).then(res => {
 						this.total = res.data.total;
