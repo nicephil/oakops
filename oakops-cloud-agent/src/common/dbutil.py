@@ -38,7 +38,7 @@ class DBUtils:
             cursor.execute(sql, params)
             res = cursor.fetchall()
         except Exception as e:
-            print('connect fails!{}'.format(e))
+            print('execute query fails!{}'.format(e))
         finally:
             cursor.close()
             conn.close()

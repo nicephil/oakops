@@ -25,6 +25,7 @@ Parameter:
 |page|N|int|page number, default is 1|
 |page_size|N|int|page size, default is 10|
 |sort|N|String|sort key, support **asc** and **desc**, such as **id asc**;  **id desc,name desc**<br>support key:|
+|cond|N|String||
 
 
 
