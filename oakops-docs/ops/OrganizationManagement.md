@@ -4,15 +4,15 @@
 
 # <a name="organization"></a>1.组织
 
-## <a name="organization-list"></a>1.1 获取组织列表
+## <a name="organization-list"></a>1.1 获取站点列表
 
 ###描述
-获取企业和站点的基本信息列表
+获取站点的信息列表
 
 ###类型
 ```
 http method: GET
-URI: /ops/v1/organizations
+URI: /ops/v1/organizations/sites
 ```
 
 ### 请求参数
@@ -34,9 +34,9 @@ Result:
 |:---|:---|:----------|
 |error_code|int|error code|
 |error_message|String|error message|
-|list|List|organization list|
+|list|List|sites list|
 
-#### organizaiton info
+#### site info
 
 |Name|Type|Description|
 |:---|:---|:----------|
@@ -46,15 +46,23 @@ Result:
 |country|String||
 |zond_id|String||
 |parent_id|long|parent id|
+|parent_name|String||
 |customer_type|int||
-|children|List|children group nodes|
+|client_online|int|onlien client number|
+|device_total|int|total device number|
+|device_online|int|online device number|
+|device_offline|int|offline device number|
+|device_unused|int|unused device number|
+|total_bytes|long||
+
+
 
 ###示例
 
 #### 请求示例
 
 ```
-http:/ops.oakridge.io/ops/v1/organizations
+http:/ops.oakridge.io/ops/v1/organizations/sites
 ```
 
 #### 返回示例
