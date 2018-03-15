@@ -34,6 +34,7 @@ api.add_resource(authentication.UserLogout, baseurl + 'logout')
 api.add_resource(authentication.TokenRefresh, baseurl + 'refreshtoken')
 # Organization
 api.add_resource(organization.OrganizationList, baseurl + 'organizations')
+api.add_resource(organization.SiteList, baseurl + 'organizations/sites')
 
 if __name__ == "__main__":
     import argparse

@@ -31,20 +31,31 @@
 				</el-form>					
 			</el-col>	
 		</el-row>
-		<el-table :data="tableData" style="width: 100%" :default-sort = "{prop: 'date', order: 'descending'}">
-			<el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
-			<el-table-column prop="name" label="姓名" sortable width="180"> </el-table-column>
-			<el-table-column prop="address" label="地址" :formatter="formatter"></el-table-column>
+		<el-table :data="sites" style="width: 100%" :default-sort = "{prop: 'date', order: 'descending'}" :row-class-name="setSiteStatusRowClass">
+			<el-table-column prop="device_total" label="状态" sortable :formatter="statusFormatter">		
+			</el-table-column>
+			<el-table-column prop="customer_type" label="类型" :formatter="customerTypeFormatter">
+				<!-- <template slot-scope="scope">
+        			<el-tag :type="scope.row.customer_type === 1 ? 'warning' : 'danger'" close-transition>
+						{{scope.row.customer_type | customerTypeFilter}}
+					</el-tag>
+      			</template> -->
+			</el-table-column>
+			<el-table-column prop="parent_name" label="企业" sortable></el-table-column>
+			<el-table-column prop="name" label="站点" sortable> </el-table-column>
+			<el-table-column prop="country" label="国家" :formatter="countryFormatter"></el-table-column>			
+			<el-table-column prop="device_total" label="AP数" :formatter="deviceNumFormatter"></el-table-column>
+			<el-table-column prop="client_online" label="在线终端数"></el-table-column>		
+			<el-table-column prop="total_bytes" label="日流量" :formatter="trafficFormatter"></el-table-column>
+			<el-table-column prop="version" label="版本" :formatter="versionFormatter"></el-table-column>			
 		</el-table>		
 		<div class="footer">
-			<el-pagination 
-				@size-change="handleSizeChange"
+			<el-pagination 			
 				@current-change="handleCurrentChange"
-				:current-page="1"
-				:page-sizes="[25, 50, 100]"
-				:page-size="25"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="400">
+				:current-page="page"	
+				:page-size="20"				
+				layout="total, prev, pager, next, jumper"
+				:total="total">
 			</el-pagination>
   		</div>		
 	</section>	
@@ -58,93 +69,33 @@
 				filters: {
 					name: ''
 				},
-				organizations: [],
+				sites: [],
 				listLoading: false,
 				total: 0,
 				page: 1,
-				tableData: [{
-						date: '2016-05-02',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1518 弄'
-					}, {
-						date: '2016-05-04',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1517 弄'
-					}, {
-						date: '2016-05-01',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1519 弄'
-					}, {
-						date: '2016-05-03',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1516 弄'
-					},
-					{
-						date: '2016-05-02',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1518 弄'
-					}, {
-						date: '2016-05-04',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1517 弄'
-					}, {
-						date: '2016-05-01',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1519 弄'
-					}, {
-						date: '2016-05-03',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1516 弄'
-					},
-					{
-						date: '2016-05-02',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1518 弄'
-					}, {
-						date: '2016-05-04',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1517 弄'
-					}, {
-						date: '2016-05-01',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1519 弄'
-					}, {
-						date: '2016-05-03',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1516 弄'
-					},
-					{
-						date: '2016-05-02',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1518 弄'
-					}, {
-						date: '2016-05-04',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1517 弄'
-					}, {
-						date: '2016-05-01',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1519 弄'
-					}, {
-						date: '2016-05-03',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1516 弄'
-					}
-				]
 			}
 		},
-		methods: {
- 			handleSizeChange(val) {
-        		console.log(`每页 ${val} 条`);
-      		},
+		methods: {				
+			setSiteStatusRowClass({row, rowIndex}){
+				if(row.device_total === row.device_offline && row.device_total > 0){
+					return 'warning-row';
+				} 
+				return '';
+			},
       		handleCurrentChange(val) {
-        		console.log(`当前页: ${val}`);
+				this.page = val;
+				this.getSites();
       		},			
-			getOrganizations() {
+			getSites() {			
+				var self = this;
+				var params = {
+					page : self.page,
+					pageSize : 20
+				};
 				this.listLoading = true;
-				this.$http.get('organizations').then(res => {
+				this.$http.get('organizations/sites', { params: params }).then(res => {
 						this.total = res.data.total;
-						this.organizations = res.data.list;
+						this.sites = res.data.list;
 						this.listLoading = false;
 					})
 					.catch(error => {
@@ -155,17 +106,64 @@
 			filterTag(value, row) {
 				return row.customer_type === value;
 			},
-			formatter(row, column) {
-        		return row.address;
-      		}
+			countryFormatter(row, column) {
+				var formatCountry = "未知";
+				if(row.country === "CN"){
+					formatCountry = "中国";
+				}else if(row.country === "US"){
+					formatCountry = "美国";
+				}
+        		return formatCountry;
+			},
+			statusFormatter(row, column){			
+				if(row.device_total === row.device_offline && row.device_total > 0){
+					return "离线";
+				}
+
+				if(row.device_offline > 0 && row.device_total > row.device_offline){
+					return "告警";
+				}
+
+				return "正常";
+			},
+			customerTypeFormatter(row, column){
+				var formatType = "未知";
+				if(row.customer_type === 1){
+					formatType = "Beta";
+				}else if(row.customer_type === 2){
+					formatType = "Alpha";
+				}
+				return formatType;				
+			},		
+			deviceNumFormatter(row, column){			
+				return row.device_online + "/" + row.device_total;
+			},
+			trafficFormatter(row, column){
+				return row.total_bytes;
+			},
+			versionFormatter(row, column){
+				return "2.0.0";
+			}
+			  
 		},
 		mounted() {
-			this.getOrganizations();
-		}
+			this.getSites();
+		},
+		filters:{
+			customerTypeFilter(value){
+				var formatType = "未知";
+				if(value === 1){
+					formatType = "Beta";
+				}else if(value === 2){
+					formatType = "Alpha";
+				}
+				return formatType;				
+			}		
+		}		
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.el-form {
 		width: 600px;
 	}
@@ -176,5 +174,9 @@
 	.grid-content {
 		border: 1px solid #ddd;
 		min-height: 36px;
+	}
+	.el-table .warning-row {
+		color: #fff;
+		background: #F56C6C;
 	}
 </style>
