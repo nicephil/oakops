@@ -22,6 +22,10 @@ Parameter:
 
 |Name|Required|Type|Description|
 |:---|:-------|:---|:----------|
+|page|N|int|page number, default is 1|
+|page_size|N|int|page size, default is 10|
+|sort|N|String|sort key, support **asc** and **desc**, such as **id asc**;  **id desc,name desc**<br>support key:|
+
 
 
 ### 返回结果
@@ -34,6 +38,7 @@ Result:
 |:---|:---|:----------|
 |error_code|int|error code|
 |error_message|String|error message|
+|total|int|total number|
 |list|List|sites list|
 
 #### site info
@@ -70,86 +75,72 @@ body
 
 ```
 {
+  "error_code": 0,
   "list": [
     {
-      "zone_id": null,
+      "device_total": 2,
+      "device_offline": 0,
+      "zone_id": "Asia/Shanghai",
+      "parent_name": "Oak-xxia",
       "country": "CN",
-      "children": [
-        {
-          "zone_id": "Asia/Shanghai",
-          "country": "CN",
-          "children": [
-            
-          ],
-          "parent_id": 2,
-          "customer_type": 1,
-          "address": "杭州市",
-          "id": 3,
-          "name": "Oak-xxia-hz"
-        },
-        {
-          "zone_id": "Asia/Shanghai",
-          "country": "CN",
-          "children": [
-            
-          ],
-          "parent_id": 2,
-          "customer_type": 2,
-          "address": "大星海纯k.高新店",
-          "id": 32,
-          "name": "Oak-xxia-test1"
-        }
-      ],
-      "parent_id": 1,
+      "device_unused": 0,
+      "name": "Oak-xxia-hz",
+      "parent_id": 2,
       "customer_type": 1,
-      "id": 2,
-      "name": "Oak-xxia"
+      "total_bytes": 0,
+      "address": "杭州市",
+      "client_online": 1,
+      "id": 3,
+      "device_online": 2
     },
     {
-      "zone_id": null,
+      "device_total": 0,
+      "device_offline": 0,
+      "zone_id": "Asia/Shanghai",
+      "parent_name": "Oak-xxia",
       "country": "CN",
-      "children": [
-        {
-          "zone_id": "Asia/Shanghai",
-          "country": "CN",
-          "children": [
-            
-          ],
-          "parent_id": 33,
-          "customer_type": 2,
-          "address": "红河哈尼族彝族自治州",
-          "id": 34,
-          "name": "hh-oak-hz"
-        }
-      ],
-      "parent_id": 1,
+      "device_unused": 0,
+      "name": "Oak-xxia-test1",
+      "parent_id": 2,
       "customer_type": 2,
-      "id": 33,
-      "name": "hh-oak-hz"
+      "total_bytes": 0,
+      "address": "大星海纯k.高新店",
+      "client_online": 0,
+      "id": 32,
+      "device_online": 0
     },
     {
-      "zone_id": null,
+      "device_total": 0,
+      "device_offline": 0,
+      "zone_id": "Asia/Shanghai",
+      "parent_name": "hh-oak-hz",
       "country": "CN",
-      "children": [
-        {
-          "zone_id": "Asia/Shanghai",
-          "country": "CN",
-          "children": [
-            
-          ],
-          "parent_id": 49,
-          "customer_type": 2,
-          "address": "爱丝特(esther)甜品烘焙",
-          "id": 50,
-          "name": "test"
-        }
-      ],
-      "parent_id": 1,
+      "device_unused": 0,
+      "name": "hh-oak-hz",
+      "parent_id": 33,
       "customer_type": 2,
-      "id": 49,
-      "name": "test"
+      "total_bytes": 0,
+      "address": "红河哈尼族彝族自治州",
+      "client_online": 0,
+      "id": 34,
+      "device_online": 0
+    },
+    {
+      "device_total": 0,
+      "device_offline": 0,
+      "zone_id": "Asia/Shanghai",
+      "parent_name": "test",
+      "country": "CN",
+      "device_unused": 0,
+      "name": "test",
+      "parent_id": 49,
+      "customer_type": 2,
+      "total_bytes": 0,
+      "address": "爱丝特(esther)甜品烘焙",
+      "client_online": 0,
+      "id": 50,
+      "device_online": 0
     }
-  ],
-  "error_code": 0
+  ]
 }
 ```
