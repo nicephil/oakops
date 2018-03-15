@@ -18,10 +18,12 @@ class OrganizationList(Resource):
         parser.add_argument('page', type=int, location='args', required=False, default = 1)
         parser.add_argument('page_size', type =int,location='args', required=False, default = 10)
         parser.add_argument('sort', type=str, location='args', required=False, default = 'id')
+        parser.add_argument('cond', type=str, location='args', required=False)
         args = parser.parse_args()
         page = args['page']
         page_size = args['page_size']
         sort = args['sort']
+        cond = args['cond']
         
         res = dict()
         res['error_code'] = 0
@@ -29,6 +31,8 @@ class OrganizationList(Resource):
 
         fields = "type,id,name,address,country,zone_id,parent_id,customer_type,client_online,device_total,device_online,device_offline,device_unused,total_bytes"
         condSql = ""
+        if cond is not None :
+            condSql = " and " + cond
         orderSql = " order by " + sort
         limitSql = ' limit ' + str(page_size) + ' offset ' + str((page-1) * page_size)
 
