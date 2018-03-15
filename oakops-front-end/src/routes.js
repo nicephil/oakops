@@ -1,16 +1,20 @@
 import Vue from "vue";
 import VueRouter from 'vue-router';
 import Login from './views/Login.vue'
+import Organization from './views/orgmgr/Organization.vue'
+
+
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import Main from './views/Main.vue'
-import Table from './views/nav1/Table.vue'
-import Form from './views/nav1/Form.vue'
-import user from './views/nav1/user.vue'
-import Page4 from './views/nav2/Page4.vue'
-import Page5 from './views/nav2/Page5.vue'
-import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
+
+// import Table from './views/nav1/Table.vue'
+// import Form from './views/nav1/Form.vue'
+// import user from './views/nav1/user.vue'
+// import Page4 from './views/nav2/Page4.vue'
+// import Page5 from './views/nav2/Page5.vue'
+// import Page6 from './views/nav3/Page6.vue'
 
 Vue.use(VueRouter);
 
@@ -44,7 +48,7 @@ let routes = [
         name: '企业站点管理',
         iconCls: 'fa fa-id-card-o',
         children: [            
-            { path: '/table', component: Table, name: '企业站点列表' },
+            { path: '/organization', component: Organization, name: '企业站点列表' },
         ]
     },
     {

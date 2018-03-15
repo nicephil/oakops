@@ -27,14 +27,17 @@ Axios.interceptors.response.use(res =>{
     //     message: '警告哦，这是一条警告消息',
     //     type: 'warning'
     // });
-     if(error.response.status === 401) { 
+    if(error.code === "ECONNABORTED" ){
+        return Promise.reject(error)
+    }  
+    if(error.response.status === 401) { 
         console.log("Unauth");   
         router.push({
             path: "/login"
         });
-     } else if (error.response.status === 500) {
+    } else if (error.response.status === 500) {
         return Promise.reject(error.response.data)
-     }
+    }
      return Promise.reject(error.response.data)
  })
 

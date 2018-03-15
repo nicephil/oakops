@@ -1121,7 +1121,7 @@ a.lostPwd {
   float: left;
 }
 
-.locationMap .status em.em1 {
+/* .locationMap .status em.em1 {
   background: url("../assets/ico/wrong.png") no-repeat;
   background-size: 16px 16px;
 }
@@ -1134,7 +1134,7 @@ a.lostPwd {
 .locationMap .status em.em3 {
   background: url("../assets/ico/link.png") no-repeat;
   background-size: 16px 16px;
-}
+} */
 
 .locationMap.mOne {
   left: 50px;
@@ -1151,7 +1151,7 @@ a.lostPwd {
   top: 300px;
 }
 
-.locationMap i.i1,
+/* .locationMap i.i1,
 .locationMap i.i2 {
   width: 44px;
   height: 82px;
@@ -1182,7 +1182,7 @@ a.lostPwd {
   left: 50%;
   margin-left: -22px;
   bottom: -58px;
-}
+} */
 
 
 /*main*/
