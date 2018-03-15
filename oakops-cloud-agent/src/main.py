@@ -18,7 +18,7 @@ api = Api(app)
 
 ROOT_URL_v0 = "/agent/cloud/v1/"
 
-api.add_resource(OrganizationList,  ROOT_URL_v0+"organizations")
+api.add_resource(OrganizationList,  ROOT_URL_v0+"organizations/sites")
 
 @app.route("/")
 def agent():
@@ -27,7 +27,7 @@ def agent():
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='manual to this script')
-    parser.add_argument('--port', type=int, default = 5000)
+    parser.add_argument('--port', type=int, default = 5001)
     args = parser.parse_args()
     port = args.port
     app.run(host='0.0.0.0', port=port)
