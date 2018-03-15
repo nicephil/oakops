@@ -14,3 +14,10 @@ class OrganizationList(Resource):
     def get(self):
         res = requests.get(cloud_agent_root_url + "/organizations")
         return res.json()
+
+
+class SiteList(Resource):
+    def get(self):
+        return {
+            
+        }

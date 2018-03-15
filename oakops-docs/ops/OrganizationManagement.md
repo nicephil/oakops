@@ -62,7 +62,7 @@ Result:
 #### 请求示例
 
 ```
-http:/ops.oakridge.io/ops/v1/organizations/sites
+http://ops.oakridge.io/ops/v1/organizations/sites
 ```
 
 #### 返回示例
