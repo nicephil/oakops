@@ -31,30 +31,35 @@
 				</el-form>					
 			</el-col>	
 		</el-row>
-		<el-table :data="sites" style="width: 100%" :default-sort = "{prop: 'date', order: 'descending'}" :row-class-name="setSiteStatusRowClass">
-			<el-table-column prop="device_total" label="状态" sortable :formatter="statusFormatter">		
-			</el-table-column>
-			<el-table-column prop="customer_type" label="类型" :formatter="customerTypeFormatter">
+		<el-table :data="sites" style="width: 100%" :row-class-name="setSiteStatusRowClass" @sort-change="sortChange">
+			<el-table-column prop="device_total" label="状态" :formatter="statusFormatter"></el-table-column>
+			<el-table-column prop="customer_type" label="类型" :formatter="customerTypeFormatter" sortable="custom">
 				<!-- <template slot-scope="scope">
         			<el-tag :type="scope.row.customer_type === 1 ? 'warning' : 'danger'" close-transition>
 						{{scope.row.customer_type | customerTypeFilter}}
 					</el-tag>
       			</template> -->
 			</el-table-column>
-			<el-table-column prop="parent_name" label="企业" sortable></el-table-column>
-			<el-table-column prop="name" label="站点" sortable> </el-table-column>
-			<el-table-column prop="country" label="国家" :formatter="countryFormatter"></el-table-column>			
-			<el-table-column prop="device_total" label="AP数" :formatter="deviceNumFormatter"></el-table-column>
-			<el-table-column prop="client_online" label="在线终端数"></el-table-column>		
-			<el-table-column prop="total_bytes" label="日流量" :formatter="trafficFormatter"></el-table-column>
+			<el-table-column prop="parent_name" label="企业"></el-table-column>
+			<el-table-column prop="name" label="站点" sortable="custom"> </el-table-column>
+			<el-table-column prop="country" label="国家" sortable="custom" :formatter="countryFormatter"></el-table-column>			
+			<el-table-column prop="device_online" label="AP数" sortable="custom"  :formatter="deviceNumFormatter"></el-table-column>
+			<el-table-column prop="client_online" label="在线终端数" sortable="custom"></el-table-column>		
+			<el-table-column prop="total_bytes" sortable="custom" label="日流量">
+				<template slot-scope="scope">
+					{{scope.row.total_bytes | sizeFilter}}
+				</template>
+			</el-table-column>
 			<el-table-column prop="version" label="版本" :formatter="versionFormatter"></el-table-column>			
 		</el-table>		
 		<div class="footer">
 			<el-pagination 			
 				@current-change="handleCurrentChange"
+				@size-change="handleSizeChange"
 				:current-page="page"	
-				:page-size="20"				
-				layout="total, prev, pager, next, jumper"
+				:page-sizes="[10, 25, 50]"
+				:page-size="page_size"				
+				layout="total, sizes, prev, pager, next, jumper"
 				:total="total">
 			</el-pagination>
   		</div>		
@@ -73,9 +78,23 @@
 				listLoading: false,
 				total: 0,
 				page: 1,
+				page_size: 10,
+				sort: 'id desc'
 			}
 		},
-		methods: {				
+		methods: {	
+			sortChange(sortParams){
+				var order = "desc"
+				if( sortParams.order === 'ascending' ){
+					order = "asc";
+				}
+
+				if(sortParams.prop === null){
+					sortParams.prop = "id";
+				}
+				this.sort = sortParams.prop + " " + order;
+				this.getSites();
+			},		
 			setSiteStatusRowClass({row, rowIndex}){
 				if(row.device_total === row.device_offline && row.device_total > 0){
 					return 'warning-row';
@@ -85,12 +104,18 @@
       		handleCurrentChange(val) {
 				this.page = val;
 				this.getSites();
-      		},			
+			},		
+			handleSizeChange(val){
+				this.page_size = val;
+				this.getSites();
+			},
 			getSites() {			
 				var self = this;
 				var params = {
 					page : self.page,
-					pageSize : 20
+					page_size : self.page_size,
+					sort: self.sort,
+					// cond: ""
 				};
 				this.listLoading = true;
 				this.$http.get('organizations/sites', { params: params }).then(res => {
@@ -158,7 +183,15 @@
 					formatType = "Alpha";
 				}
 				return formatType;				
-			}		
+			},
+            sizeFilter: function(bytes) {
+                if (!bytes) return 0;
+                if (bytes == 0) return "0 Bytes";
+                var k = 1024,
+                    sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+                    i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(0)) + " " + sizes[i];
+            }					
 		}		
 	}
 </script>
