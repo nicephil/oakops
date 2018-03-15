@@ -22,11 +22,11 @@
 						</el-checkbox-group>
 					</el-form-item>		
 					<el-form-item label="站点状态" v-show="showMoreQuery">
-						<el-checkbox-group>
-							<el-checkbox label="正常" name="type"></el-checkbox>
-							<el-checkbox label="报警" name="type"></el-checkbox>
-							<el-checkbox label="离线" name="type"></el-checkbox>
-							<el-checkbox label="待审批" name="type"></el-checkbox>							
+						<el-checkbox-group v-model="statusList" @change="statusFilterChange">
+							<el-checkbox label="正常" key="normal"></el-checkbox>
+							<el-checkbox label="报警"></el-checkbox>
+							<el-checkbox label="离线"></el-checkbox>
+							<el-checkbox label="待审批" disabled></el-checkbox>							
 						</el-checkbox-group>
 					</el-form-item>										
 				</el-form>					
@@ -72,6 +72,7 @@
 		data() {
 			return {
 				cutomerTypeList: [],
+				statusList: [],
 				showMoreQuery: false,
 				filters: {
 					name: ''
@@ -89,19 +90,39 @@
 			}
 		},
 		methods: {	
+			// 离线: device_total=device_offline and device_total>0
+			// 正常: device_offline=0
+			// 告警: device_offline > 0 and device_offline<device_total
+			statusFilterChange(val){
+				this.page = 1;
+				var status = [];
+				val.forEach(item => {
+					if(item === '正常'){
+						status.push("(device_offline=0)");					 
+					}
+					if(item === '报警'){
+						status.push("(device_offline > 0 and device_offline<device_total)");
+					}				
+					if(item === '离线'){
+						status.push("(device_total=device_offline and device_total>0)");						
+					}							
+				})				
+				this.filter_status = status.length === 0 || status.length === 3 ? "" : status.join(" or ");
+				this.calculateFilter();
+				this.getSites();				
+			},
 			cutomerTypeChange(val){	
 				this.page = 1;		
-				if(val.length === 1){
-					if(val[0] === 'Alpha'){
-						this.filter_type = "customer_type=2";
-					}else if(val[0] === 'Beta'){
-						this.filter_type = "customer_type=1";
+				var types = [];
+				val.forEach(item => {
+					if(item === 'Alpha'){
+						types.push("customer_type=2");
 					}
-				}else if(val.length === 2){
-					this.filter_type = "customer_type=1 or customer_type=2";						
-				}else{
-					this.filter_type = "";
-				}
+					if(item === 'Beta'){
+						types.push("customer_type=1");
+					}					
+				})				
+				this.filter_type = types.length === 0 || types.length === 2 ? "" : types.join(" or ");
 				this.calculateFilter();
 				this.getSites();
 			},
@@ -142,6 +163,9 @@
 				if(this.filter_type.length != 0){
 					conds.push(this.filter_type);
 				}		
+				if(this.filter_status.length != 0){
+					conds.push("(" +this.filter_status + ")");
+				}					
 				this.filter_cond = conds.join(' and ');	
 				console.log("this.filter_cond", this.filter_cond);		
 			},
@@ -211,7 +235,7 @@
 				}
 
 				if(row.device_offline > 0 && row.device_total > row.device_offline){
-					return "告警";
+					return "报警";
 				}
 
 				return "正常";
