@@ -1,76 +1,102 @@
 <template>
-	<section>
-		<el-row>			
-			<el-col :span="24" class="toolbar">	
-				<el-form label-width="120px">
-					<el-form-item label="按站点名称搜索">
-						<el-col :span="16">
-							<el-form-item prop="date1">
-								<!-- <el-input placeholder="请输入站点名称" v-model="filter_name" prefix-icon="el-icon-search" @change="searchBySiteName" clearable></el-input> -->
-								<el-autocomplete style="width: 100%;" v-model="filter_name" :trigger-on-focus="true" :fetch-suggestions="querySearchAsync" placeholder="请输入站点名称" @select="handleSelect"></el-autocomplete>
-							</el-form-item>
-						</el-col>
-						<el-col :span="4" style="padding-left: 20px;">
-							<el-button v-show="!showMoreQuery" @click="showMoreQuery=true" type="default">更多搜索<i class="el-icon-arrow-down el-icon--right"></i></el-button>
-							<el-button v-show="showMoreQuery"  @click="showMoreQuery=false" type="default">简单搜索<i class="el-icon-arrow-up el-icon--right"></i></el-button>
-						</el-col>
-					</el-form-item>					
-					<el-form-item label="客户类型" v-show="showMoreQuery">
-						<el-checkbox-group v-model="cutomerTypeList" @change="cutomerTypeChange">
-							<el-checkbox label="Alpha" key="2"></el-checkbox>
-							<el-checkbox label="Beta" key="1"></el-checkbox>
-						</el-checkbox-group>
-					</el-form-item>		
-					<el-form-item label="站点状态" v-show="showMoreQuery">
-						<el-checkbox-group v-model="statusList" @change="statusFilterChange">
-							<el-checkbox label="正常" key="normal"></el-checkbox>
-							<el-checkbox label="报警"></el-checkbox>
-							<el-checkbox label="离线"></el-checkbox>
-							<el-checkbox label="待审批" disabled></el-checkbox>							
-						</el-checkbox-group>
-					</el-form-item>										
-				</el-form>					
-			</el-col>	
-		</el-row>
-		<el-table :data="sites" style="width: 100%" :row-class-name="setSiteStatusRowClass" @sort-change="sortChange">
-			<el-table-column prop="device_total" label="状态" :formatter="statusFormatter"></el-table-column>
-			<el-table-column prop="customer_type" label="类型" :formatter="customerTypeFormatter" sortable="custom">
-				<!-- <template slot-scope="scope">
-        			<el-tag :type="scope.row.customer_type === 1 ? 'warning' : 'danger'" close-transition>
-						{{scope.row.customer_type | customerTypeFilter}}
-					</el-tag>
-      			</template> -->
-			</el-table-column>
-			<el-table-column prop="parent_name" label="企业"></el-table-column>
-			<el-table-column prop="name" label="站点" sortable="custom"> </el-table-column>
-			<el-table-column prop="country" label="国家" sortable="custom" :formatter="countryFormatter"></el-table-column>			
-			<el-table-column prop="device_online" label="AP数" sortable="custom"  :formatter="deviceNumFormatter"></el-table-column>
-			<el-table-column prop="client_online" label="在线终端数" sortable="custom"></el-table-column>		
-			<el-table-column prop="total_bytes" sortable="custom" label="日流量">
-				<template slot-scope="scope">
-					{{scope.row.total_bytes | sizeFilter}}
-				</template>
-			</el-table-column>
-			<el-table-column prop="version" label="版本" :formatter="versionFormatter"></el-table-column>			
-		</el-table>		
-		<div class="footer">
-			<el-pagination 			
-				@current-change="handleCurrentChange"
-				@size-change="handleSizeChange"
-				:current-page="page"	
-				:page-sizes="[10, 25, 50]"
-				:page-size="page_size"				
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="total">
-			</el-pagination>
-  		</div>		
-	</section>	
+	<el-container>
+		<el-aside width="250px">
+			<el-row>
+				<el-col :span="24">				
+					<el-menu :default-openeds="['1','2','3']">
+						<el-submenu index="1">
+							<template slot="title">							
+								<span>按名称搜索</span>
+							</template>
+							<div class="search-item">
+								<!-- <el-autocomplete style="width: 100%;" v-model="filter_name" :trigger-on-focus="true" :fetch-suggestions="querySearchAsync" placeholder="企业名/站点名/所有者" @select="handleSelect"></el-autocomplete> -->
+								<el-input placeholder="企业名/站点名/所有者" v-model="filter_name" class="input-with-select" @keyup.enter.native="nameSearchChange">									
+									<el-button slot="append" class="append-btn" icon="el-icon-search" @click="nameSearchChange"></el-button>								
+								</el-input>
+							</div>							
+						</el-submenu>		
+						<el-submenu index="2">
+							<template slot="title">							
+								<span>站点状态过滤</span>
+							</template>
+							<el-menu-item-group>
+								<el-checkbox-group v-model="statusList" @change="statusFilterChange">
+									<div class="filter-item">
+										<el-checkbox label="正常" key="normal"></el-checkbox>
+									</div>
+									<div class="filter-item">
+										<el-checkbox label="报警"></el-checkbox>
+									</div>
+									<div class="filter-item">
+										<el-checkbox label="离线"></el-checkbox>
+									</div>
+									<div class="filter-item">
+										<el-checkbox label="待审批" disabled></el-checkbox>							
+									</div>									
+								</el-checkbox-group>							
+							</el-menu-item-group>
+						</el-submenu>
+						<el-submenu index="3">
+							<template slot="title">							
+								<span>站点类型过滤</span>
+							</template>
+							<el-menu-item-group>
+								<el-checkbox-group v-model="cutomerTypeList" @change="cutomerTypeChange">
+									<div class="filter-item">
+										<el-checkbox label="Alpha" key="2"></el-checkbox>
+									</div>
+									<div class="filter-item">
+										<el-checkbox label="Beta" key="1"></el-checkbox>
+									</div>								
+								</el-checkbox-group>							
+							</el-menu-item-group>
+						</el-submenu>						
+					</el-menu>
+				</el-col>
+			</el-row>			
+		</el-aside>
+		<el-main>
+			<el-table :data="sites" style="width: 100%" :row-class-name="setSiteStatusRowClass" @sort-change="sortChange" v-loading="listLoading">
+				<el-table-column width="55" type="selection"></el-table-column>				
+				<el-table-column width="80" prop="device_total" label="状态" :formatter="statusFormatter"></el-table-column>
+				<el-table-column width="100" prop="customer_type" label="类型" :formatter="customerTypeFormatter" sortable="custom">
+					<!-- <template slot-scope="scope">
+						<el-tag :type="scope.row.customer_type === 1 ? 'warning' : 'danger'" close-transition>
+							{{scope.row.customer_type | customerTypeFilter}}
+						</el-tag>
+					</template> -->
+				</el-table-column>
+				<el-table-column prop="parent_name" label="企业"></el-table-column>
+				<el-table-column prop="name" label="站点" sortable="custom"> </el-table-column>
+				<el-table-column width="100"  prop="country" label="国家" sortable="custom" :formatter="countryFormatter"></el-table-column>			
+				<el-table-column width="100"  prop="device_online" label="AP数" sortable="custom"  :formatter="deviceNumFormatter"></el-table-column>
+				<el-table-column width="120" prop="client_online" label="在线终端数" sortable="custom"></el-table-column>		
+				<el-table-column width="120" prop="total_bytes" sortable="custom" label="日流量">
+					<template slot-scope="scope">
+						{{scope.row.total_bytes | sizeFilter}}
+					</template>
+				</el-table-column>
+				<el-table-column prop="version" label="版本" :formatter="versionFormatter"></el-table-column>			
+			</el-table>		
+			<div class="footer">
+				<el-pagination 			
+					@current-change="handleCurrentChange"
+					@size-change="handleSizeChange"
+					:current-page="page"	
+					:page-sizes="[10, 25, 50]"
+					:page-size="page_size"				
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="total">
+				</el-pagination>
+			</div>			
+		</el-main>		
+	</el-container>
 </template>
 
 <script>
 	export default {
 		data() {
-			return {
+			return {				
 				cutomerTypeList: [],
 				statusList: [],
 				showMoreQuery: false,
@@ -90,6 +116,11 @@
 			}
 		},
 		methods: {	
+			nameSearchChange(val){			
+				// this.filter_name = val;
+				this.calculateFilter();
+				this.getSites();				
+			},	
 			// 离线: device_total=device_offline and device_total>0
 			// 正常: device_offline=0
 			// 告警: device_offline > 0 and device_offline<device_total
@@ -166,8 +197,7 @@
 				if(this.filter_status.length != 0){
 					conds.push("(" +this.filter_status + ")");
 				}					
-				this.filter_cond = conds.join(' and ');	
-				console.log("this.filter_cond", this.filter_cond);		
+				this.filter_cond = conds.join(' and ');				
 			},
 			sortChange(sortParams){
 				var order = "desc"
@@ -195,7 +225,7 @@
 				this.page_size = val;
 				this.getSites();
 			},
-			getSites() {			
+			getSites() {				
 				var self = this;			
 				var params = {
 					page : self.page,
@@ -205,7 +235,7 @@
 				};
 				if(self.filter_cond.length === 0){
 					delete params.cond;
-				}
+				}				
 				this.listLoading = true;
 				this.$http.get('organizations/sites', { params: params }).then(res => {
 						this.total = res.data.total;
@@ -286,6 +316,27 @@
 </script>
 
 <style lang="scss">
+	.el-aside {	
+		border-right: 1px solid #e6e6e6;
+		list-style: none;
+		position: relative;		
+		margin: 0;
+		padding: 20px 0 0 0;
+		background-color: #fff;
+		.el-menu{
+			border-right: none;
+		}
+		.filter-item{
+			padding: 0 20px 20px 20px;
+		}		
+		.search-item{
+			padding: 10px 20px 20px 20px;
+			.el-input-group__append{
+				background: transparent;
+				padding: 0 3px;
+			}
+		}	
+	}
 	.el-form {
 		width: 600px;
 	}
@@ -301,4 +352,5 @@
 		color: #fff;
 		background: #F56C6C;
 	}
+
 </style>
