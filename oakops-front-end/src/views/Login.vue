@@ -80,10 +80,9 @@
               })
               .catch(error => {                
                 self.logining = false; 
-                this.$message.error(error.dta.error_message);
+                this.$message.error("用户名或者密码不正确，请核对后重试!");
               })            
-          } else {
-            console.log('error submit!!');
+          } else {          
             return false;
           }
         });

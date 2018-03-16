@@ -34,7 +34,7 @@
 	export default {
 		data() {
 			return {
-				sysName: 'Oakridge Ops',
+				sysName: 'Oakridge Operation',
 				collapsed: false,
 				sysUserName: '',
 				sysUserAvatar: '',

@@ -3,7 +3,7 @@ import { Message } from "element-ui";
 import router from './../routes'
 
 export const Axios = axios.create({
-//   baseURL: 'http://localhost:5000/ops/v1/', 
+    // baseURL: 'http://localhost:5000/ops/v1/', 
     baseURL: 'http://operation.oakridge.vip:5000/ops/v1/', 
     timeout: 5000,
 })
@@ -28,6 +28,7 @@ Axios.interceptors.response.use(res =>{
     //     message: '警告哦，这是一条警告消息',
     //     type: 'warning'
     // });
+    
     if(error.code === "ECONNABORTED" ){
         return Promise.reject(error)
     }  

@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify,make_response
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 
@@ -28,19 +28,16 @@ class UserLogin(Resource):
         data = parser.parse_args()
         try:
             if data['username'] != 'hui.he@oakridge.io' or data['password'] != 'oakridge':
-                return {
-                    "error_code": 100100,
-                    "message": "Bad username or password"
-                }
+                return make_response(jsonify({"error_message": "Bad username or password"}), 401)
 
-            return {
+            ret = {
                 'error_code': 0,
                 'message' : 'Login success',             
                 'access_token': create_access_token(identity = data['username']),
                 'refresh_token': create_refresh_token(identity = data['username'])
             }
 
-            # return jsonify(ret), 200
+            return make_response(jsonify(ret), 200)
 
         except:
             return {

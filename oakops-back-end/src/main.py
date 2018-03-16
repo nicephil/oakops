@@ -1,6 +1,6 @@
 
 
-from flask import Flask
+from flask import Flask,jsonify,make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
@@ -25,7 +25,13 @@ def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return authentication.RevokedTokenModel.is_jti_blacklisted(jti)
 
-
+@jwt.expired_token_loader
+def expired_token_callback():
+    return make_response(jsonify({
+        'status': 401,
+        'sub_status': 42,
+        'msg': 'The token has expired'
+    }), 401)
 
 baseurl = '/ops/v1/'
 # Authentication
