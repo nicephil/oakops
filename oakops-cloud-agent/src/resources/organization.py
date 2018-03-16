@@ -19,15 +19,15 @@ class OrganizationList(Resource):
         parser.add_argument('page_size', type =int,location='args', required=False, default = 10)
         parser.add_argument('search', type =str,location='args', required=False, default = '')
         parser.add_argument('sort', type=str, location='args', required=False, default = 'id')
-        parser.add_argument('status', type=int, location='args', required=False, default = None)
-        parser.add_argument('customer_type', type=int, location='args', required=False, default = None)
+        parser.add_argument('status', type=int, location='args', required=False, default = None, action='append')
+        parser.add_argument('customer_types', type=int, location='args', required=False, default = None, action='append')
         args = parser.parse_args()
         page = args['page']
         page_size = args['page_size']
         search = args['search']
         sort = args['sort']
         status = args['status']
-        customer_type = args['customer_type']
+        customer_types = args['customer_types']
         
         res = dict()
         res['error_code'] = 0
@@ -40,15 +40,21 @@ class OrganizationList(Resource):
         condParams = []
         condSql = " where o.type = 2 "
         if (search is not None and search.strip() != ''):
-            condSql += " and (o.name like  %s or p.name like %s)"
+            condSql += " and (o.name like  %s or p.name like %s or ui.email like %s)"
             condParams.append('%'+search+'%')
             condParams.append('%'+search+'%')
-        if (status is not None):
-            condSql += " and o.status = %s"
-            condParams.append(status)
-        if (customer_type is not None):
-            condSql += " and o.customer_type = %s"
-            condParams.append(customer_type)
+            condParams.append('%'+search+'%')
+        if (status is not None and len(status) > 0):
+            arg_list = ','.join(['%s'] * len(status))
+            condSql += " and o.status in (" + arg_list + ")"
+            for value in status:
+                condParams.append(value)
+        if (customer_types is not None and len(customer_types) > 0):
+            arg_list = ','.join(['%s'] * len(customer_types))
+            condSql += " and o.customer_type in (" + arg_list + ")"
+            for value in customer_types:
+                condParams.append(value)
+        print(condSql)
         orderSql = " order by " + sort
         limitSql = ' limit ' + str(page_size) + ' offset ' + str((page-1) * page_size)
 
