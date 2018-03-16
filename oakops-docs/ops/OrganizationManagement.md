@@ -26,7 +26,8 @@ Parameter:
 |page_size|N|int|page size, default is 10|
 |search|String||
 |sort|N|String|sort key, support **asc** and **desc**, such as **id asc**;  **id desc,name desc**<br>support key:|
-|cond|N|String||
+|status|int|0 : normal<br>1 : alert<br>2 : offline|
+|customer_type|int||
 
 
 
@@ -61,7 +62,7 @@ Result:
 |device_offline|int|offline device number|
 |device_unused|int|unused device number|
 |total_bytes|long||
-|status|int|0 : normal<br>1 : alert<br>2 : offline|
+|status|int||
 |owner|String||
 |nms|String||
 

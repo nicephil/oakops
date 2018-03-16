@@ -17,58 +17,76 @@ class OrganizationList(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('page', type=int, location='args', required=False, default = 1)
         parser.add_argument('page_size', type =int,location='args', required=False, default = 10)
+        parser.add_argument('search', type =str,location='args', required=False, default = '')
         parser.add_argument('sort', type=str, location='args', required=False, default = 'id')
-        parser.add_argument('cond', type=str, location='args', required=False)
+        parser.add_argument('status', type=int, location='args', required=False, default = None)
+        parser.add_argument('customer_type', type=int, location='args', required=False, default = None)
         args = parser.parse_args()
         page = args['page']
         page_size = args['page_size']
+        search = args['search']
         sort = args['sort']
-        cond = args['cond']
+        status = args['status']
+        customer_type = args['customer_type']
         
         res = dict()
         res['error_code'] = 0
         orgs = []
 
-        fields = "type,id,name,address,country,zone_id,parent_id,customer_type,client_online,device_total,device_online,device_offline,device_unused,total_bytes"
-        condSql = ""
-        if cond is not None :
-            condSql = " and " + cond
+        fields = '''o.type as type,o.id as id,o.name as name,o.address as address,o.country as country,o.zone_id as zone_id,o.parent_id as parent_id, 
+            p.name as parent_name,o.customer_type as customer_type,o.client_online as client_online,o.device_total as device_total,o.device_online as device_online,
+            o.device_offline as device_offline,o.device_unused as device_unused,o.total_bytes as total_bytes, o.status as status, oci.name as nms,
+            ui.email as owner'''
+        condParams = []
+        condSql = " where o.type = 2 "
+        if (search is not None and search.strip() != ''):
+            condSql += " and (o.name like  %s or p.name like %s)"
+            condParams.append('%'+search+'%')
+            condParams.append('%'+search+'%')
+        if (status is not None):
+            condSql += " and o.status = %s"
+            condParams.append(status)
+        if (customer_type is not None):
+            condSql += " and o.customer_type = %s"
+            condParams.append(customer_type)
         orderSql = " order by " + sort
         limitSql = ' limit ' + str(page_size) + ' offset ' + str((page-1) * page_size)
 
+        fromSql = ''' from organization_info o left join organization_info p on p.id = o.parent_id left join oauth_client_info oci on oci.id = o.oauth_client_id 
+                 left join user_info ui on ui.user_label = p.owner'''
         # get total 
-        sql = "select count(1) from organization_info where type = 2 " + condSql
-        dbResult = self.dbutils.executeQuery(sql,None)
+        sql = "select count(1) {} {}".format(fromSql,condSql)
+        dbResult = self.dbutils.executeQuery(sql,condParams)
         for row in dbResult:
             res["total"] = row[0]
             break
 
-        sql = "select " + fields + " from organization_info where type = 2 " + condSql + orderSql + limitSql
-        dbResult = self.dbutils.executeQuery(sql,None)
+        sql = "select {} {} {} {} {}".format(fields,fromSql,condSql,orderSql,limitSql)
+        dbResult = self.dbutils.executeQuery(sql,condParams)
 
         for row in dbResult:
+            i = 1
             item = dict()
-            item["id"] = row[1]
-            item["name"] = row[2]
-            if row[3] is not None:
-                item["address"] = row[3]
-            item["country"] = row[4]
-            item["zone_id"] = row[5]
-            item["parent_id"] = row[6]
-            item["customer_type"] = row[7]
-            item["client_online"] = row[8]
-            item["device_total"] = row[9]
-            item["device_online"] = row[10]
-            item["device_offline"] = row[11]
-            item["device_unused"] = row[12]
-            item["total_bytes"] = row[13]
+            item["id"] = row[i];i+=1
+            item["name"] = row[i];i+=1
+            if row[i] is not None:
+                item["address"] = row[i]
+            i+=1
+            item["country"] = row[i];i+=1
+            item["zone_id"] = row[i];i+=1
+            item["parent_id"] = row[i];i+=1
+            item["parent_name"] = row[i];i+=1
+            item["customer_type"] = row[i];i+=1
+            item["client_online"] = row[i];i+=1
+            item["device_total"] = row[i];i+=1
+            item["device_online"] = row[i];i+=1
+            item["device_offline"] = row[i];i+=1
+            item["device_unused"] = row[i];i+=1
+            item["total_bytes"] = row[i];i+=1
+            item["status"] = row[i];i+=1
+            item["nms"] = row[i];i+=1
+            item["owner"] = row[i];i+=1
             orgs.append(item)
-
-        # get parent name
-        dbResult = self.dbutils.executeQuery("select id, name from organization_info where type = 1",None)
-        for row in dbResult:
-            for item in orgs:
-                if item["parent_id"] == row[0]: item["parent_name"] = row[1]
             
         res["list"] = orgs    
         
