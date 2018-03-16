@@ -206,13 +206,11 @@
 				return row.customer_type === value;
 			},
 			countryFormatter(row, column) {
-				var formatCountry = "未知";
-				if(row.country === "CN"){
-					formatCountry = "中国";
-				}else if(row.country === "US"){
-					formatCountry = "美国";
+				switch(row.country){
+					case "CN":return "中国";
+					case "US":return "美国";								
+					default: return "未知";
 				}
-        		return formatCountry;
 			},
 			statusFormatter(row, column){		
 				switch(row.status){
@@ -223,13 +221,11 @@
 				}
 			},
 			customerTypeFormatter(row, column){
-				var formatType = "未知";
-				if(row.customer_type === 1){
-					formatType = "Beta";
-				}else if(row.customer_type === 2){
-					formatType = "Alpha";
-				}
-				return formatType;				
+				switch(row.customer_type){
+					case 1:return "Beta";
+					case 2:return "Alpha";								
+					default: return "未知";
+				}			
 			},		
 			deviceNumFormatter(row, column){			
 				return row.device_online + "/" + row.device_total;

@@ -1,25 +1,37 @@
 <template>
 	<el-row class="container">
-		<el-col :span="24" class="header">
-			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+		<div class="oak-header">
+			<div class="header-left pull-left">
+				<a class="logo" href="javascript:;"></a>
+			</div>
+			<div class="header-right pull-right">
+				<el-dropdown trigger="hover" placement="bottom-start">
+					<span class="el-dropdown-link userinfo-inner">{{sysUserName}}<el-tag style="margin-left: 10px" size="mini">超级管理员</el-tag></span>
+					<el-dropdown-menu slot="dropdown">					
+						<el-dropdown-item>设置</el-dropdown-item>
+						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>				
+			</div>
+		</div>		
+		<!-- <el-col :span="24" class="oak-header">
+			<el-col :span="8">
 				{{collapsed?'':sysName}}
 			</el-col>
-			<el-col :span="10">
-				<div class="tools" @click.prevent="collapse">
-					<!-- <i class="fa fa-align-justify"></i> -->
+			<el-col :span="12">
+				<div class="tools" @click.prevent="collapse">				
 				</div>
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
-					<el-dropdown-menu slot="dropdown">
-						<!-- <el-dropdown-item>我的消息</el-dropdown-item> -->
+					<el-dropdown-menu slot="dropdown">					
 						<el-dropdown-item>设置</el-dropdown-item>
 						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</el-col>
-		</el-col>
+		</el-col> -->
 		<el-col :span="24" class="main">
 			<el-col :span="24" class="content-wrapper">
 				<transition name="fade" mode="out-in">
@@ -90,11 +102,34 @@
 		top: 0px;
 		bottom: 0px;
 		width: 100%;
+		.oak-header{
+			width: 100%;
+			height: 40px;
+			line-height: 40px;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 200;
+			background: #e5ecf2;
+			box-shadow: 0 0 30px rgba(0, 0, 0, .3);	
+			.logo {
+				margin: 0 0 0 20px;
+				width: 119px;
+				height: 45px;
+				display: block;
+				background: url("../assets/oakridge-logo.png") no-repeat;
+				background-size: 119px 45px;
+			}					
+			.header-right {
+				margin-left: 230px;
+				padding: 0px 30px 0 0;
+			}
+		}
 		.header {
-			height: 60px;
-			line-height: 60px;
+			height: 40px;
+			line-height: 40px;
 			background: $color-primary;
-			color: #fff;
+			// color: #fff;
 			.userinfo {
 				text-align: right;
 				padding-right: 35px;
@@ -146,7 +181,7 @@
 		.main {
 			display: flex; // background: #324057;
 			position: absolute;
-			top: 60px;
+			top: 40px;
 			bottom: 0px;
 			overflow: hidden;
 			.content-wrapper {
