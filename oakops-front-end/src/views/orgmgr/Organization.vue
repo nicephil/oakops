@@ -10,7 +10,7 @@
 							</template>
 							<div class="search-item">
 								<!-- <el-autocomplete style="width: 100%;" v-model="filter_name" :trigger-on-focus="true" :fetch-suggestions="querySearchAsync" placeholder="企业名/站点名/所有者" @select="handleSelect"></el-autocomplete> -->
-								<el-input placeholder="企业名/站点名/所有者" v-model="filter_name" class="input-with-select" @keyup.enter.native="nameSearchChange">									
+								<el-input placeholder="企业名/站点名/所有者" v-model="filter_name" class="input-with-select" @keyup.enter.native="nameSearchChange" clearable>									
 									<el-button slot="append" class="append-btn" icon="el-icon-search" @click="nameSearchChange"></el-button>								
 								</el-input>
 							</div>							
