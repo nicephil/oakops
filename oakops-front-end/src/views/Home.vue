@@ -52,7 +52,7 @@
 				</ul>
 			</aside>
 			<section class="content-container">
-				<div class="grid-content bg-purple-light">
+				<div class="bg-purple-light">
 					<el-col :span="24" class="breadcrumb-container">
 						<strong class="title">{{$route.name}}</strong>
 						<el-breadcrumb separator="/" class="breadcrumb-inner">
@@ -134,7 +134,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	@import '~scss_vars';
 	.container {
 		position: absolute;
@@ -241,7 +241,8 @@
 				overflow-y: scroll;
 				padding: 20px;
 				.breadcrumb-container {
-					//margin-bottom: 15px;
+					padding-bottom: 15px;
+					border-bottom: 2px solid #D7E1EB;
 					.title {
 						width: 200px;
 						float: left;

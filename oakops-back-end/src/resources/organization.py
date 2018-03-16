@@ -11,7 +11,7 @@ class OrganizationList(Resource):
     def __init__(self):
         super(OrganizationList,self).__init__()
 
-    # @jwt_required
+    @jwt_required
     def get(self):
         url = cloud_agent_root_url + "/organizations/sites"
         full_path = request.full_path
