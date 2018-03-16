@@ -63,6 +63,7 @@ Result:
 |total_bytes|long||
 |status|int|0 : normal<br>1 : alert<br>2 : offline|
 |owner|String||
+|nms|String||
 
 
 
@@ -71,7 +72,7 @@ Result:
 #### 请求示例
 
 ```
-http://ops.oakridge.io/ops/v1/organizations/sites
+http:/ops.oakridge.io/ops/v1/organizations/sites
 ```
 
 #### 返回示例
