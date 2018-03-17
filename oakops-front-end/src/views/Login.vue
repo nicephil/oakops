@@ -80,7 +80,12 @@
               })
               .catch(error => {                
                 self.logining = false; 
-                this.$message.error("用户名或者密码不正确，请核对后重试!");
+                if(error.data.error_message){
+                  this.$message.error("用户名或者密码不正确，请核对后重试!");
+                }else{
+                  this.$message.error("登录失败, 请重试!");
+                }
+                
               })            
           } else {          
             return false;
