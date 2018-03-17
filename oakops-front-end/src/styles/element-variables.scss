@@ -1,6 +1,6 @@
 /* 改变主题色变量 */
 $--color-primary: #5ea8d7;
-$--color-text-primary: #5ea8d7;
+// $--color-text-primary: #5ea8d7;
 
 /* 改变 icon 字体路径变量，必需 */
 
@@ -9,6 +9,11 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
 .el-pagination__total {
   margin-left: 20px;
+}
+
+.el-pager li.active {
+  color: #409EFF;
+  cursor: default;
 }
 
 .el-table thead {
