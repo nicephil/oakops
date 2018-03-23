@@ -1,0 +1,10 @@
+Task: Dump OakManager tipark data
+Dump data from oakmanage / organization_info
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables organization_info --complete-insert --skip-opt --where='id=30 or parent_id=30' > tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables device_info --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables device_monitor --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables device_config --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables network_policy --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables ssid_profile --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables network_policy_ssid --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
+mysqldump -uroot -poakridge --no-create-info --databases nms --tables device_group --complete-insert --skip-opt --where='domain in (31, 132)' >> tipark/tipark_bak.sql
