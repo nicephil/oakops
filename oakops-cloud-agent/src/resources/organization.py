@@ -21,6 +21,7 @@ class OrganizationList(Resource):
         parser.add_argument('sort', type=str, location='args', required=False, default = 'id')
         parser.add_argument('status', type=int, location='args', required=False, default = None, action='append')
         parser.add_argument('customer_types', type=int, location='args', required=False, default = None, action='append')
+        parser.add_argument('software_versions', type=str, location='args', required=False, default = None, action='append')
         args = parser.parse_args()
         page = args['page']
         page_size = args['page_size']
@@ -28,6 +29,7 @@ class OrganizationList(Resource):
         sort = args['sort']
         status = args['status']
         customer_types = args['customer_types']
+        software_versions = args['software_versions']
         
         res = dict()
         res['error_code'] = 0
@@ -36,7 +38,7 @@ class OrganizationList(Resource):
         fields = '''o.type as type,o.id as id,o.name as name,o.address as address,o.country as country,o.zone_id as zone_id,o.parent_id as parent_id, 
             p.name as parent_name,o.customer_type as customer_type,o.client_online as client_online,o.device_total as device_total,o.device_online as device_online,
             o.device_offline as device_offline,o.device_unused as device_unused,o.total_bytes as total_bytes, o.status as status, oci.name as nms,
-            ui.email as owner'''
+            ui.email as owner, oci.software_version as software_version'''
         condParams = []
         condSql = " where o.type = 2 "
         if (search is not None and search.strip() != ''):
@@ -54,7 +56,12 @@ class OrganizationList(Resource):
             condSql += " and o.customer_type in (" + arg_list + ")"
             for value in customer_types:
                 condParams.append(value)
-        print(condSql)
+        if (software_versions is not None and len(software_versions) > 0):
+            arg_list = ','.join(['%s'] * len(software_versions))
+            condSql += " and oci.software_version in (" + arg_list + ")"
+            for value in software_versions:
+                condParams.append(value)
+        # print(condSql)
         orderSql = " order by " + sort
         limitSql = ' limit ' + str(page_size) + ' offset ' + str((page-1) * page_size)
 
@@ -92,6 +99,7 @@ class OrganizationList(Resource):
             item["status"] = row[i];i+=1
             item["nms"] = row[i];i+=1
             item["owner"] = row[i];i+=1
+            item["software_version"] = row[i];i+=1
             orgs.append(item)
             
         res["list"] = orgs    
