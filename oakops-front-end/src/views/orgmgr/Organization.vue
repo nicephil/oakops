@@ -56,8 +56,8 @@
 			</el-row>			
 		</el-aside>
 		<el-main>
-			<el-table :data="sites" style="width: 100%" :row-class-name="setSiteStatusRowClass" @sort-change="sortChange" v-loading="listLoading">
-				<el-table-column width="55" type="selection"></el-table-column>				
+			<el-table :max-height="table_height" :data="sites" style="width: 100%" :row-class-name="setSiteStatusRowClass" @sort-change="sortChange" v-loading="listLoading">
+				<el-table-column width="55" type="selection" fixed></el-table-column>				
 				<el-table-column width="80" prop="status" label="状态" sortable="custom" :formatter="statusFormatter"></el-table-column>
 				<el-table-column width="100" prop="customer_type" label="类型" :formatter="customerTypeFormatter" sortable="custom">
 					<!-- <template slot-scope="scope">
@@ -66,7 +66,7 @@
 						</el-tag>
 					</template> -->
 				</el-table-column>
-				<el-table-column prop="parent_name" label="企业"></el-table-column>
+				<el-table-column prop="parent_name" label="企业" sortable="custom"></el-table-column>
 				<el-table-column prop="name" label="站点" sortable="custom"> </el-table-column>
 				<el-table-column width="100"  prop="country" label="国家" sortable="custom" :formatter="countryFormatter"></el-table-column>			
 				<el-table-column width="100"  prop="device_online" label="AP数" sortable="custom"  :formatter="deviceNumFormatter"></el-table-column>
@@ -76,8 +76,8 @@
 						{{scope.row.total_bytes | sizeFilter}}
 					</template>
 				</el-table-column>
-				<el-table-column prop="owner" label="所有者"></el-table-column>
-				<el-table-column prop="nms" label="OakManager"></el-table-column>			
+				<el-table-column prop="owner" label="所有者" sortable="custom"></el-table-column>
+				<el-table-column prop="nms" label="OakManager" sortable="custom"></el-table-column>			
 			</el-table>		
 			<div class="footer">
 				<el-pagination 			
@@ -98,7 +98,8 @@
 	import qs from "qs";
 	export default {
 		data() {
-			return {				
+			return {	
+				table_height:"100%",			
 				cutomerTypeList: [],
 				statusList: [],
 				showMoreQuery: false,
@@ -239,7 +240,11 @@
 			  
 		},
 		mounted() {
-			this.getSites();
+			this.table_height = document.documentElement.clientHeight - 150;
+			// console.log("window.innerHeight", window.innerHeight);
+			// console.log("document.documentElement.clientHeight", document.documentElement.clientHeight);
+			// console.log("document.body.clientHeight", document.body.clientHeight);
+			this.getSites();		
 		},
 		filters:{
 			customerTypeFilter(value){
@@ -284,9 +289,6 @@
 				padding: 0 3px;
 			}
 		}	
-	}
-	.el-form {
-		width: 600px;
 	}
 	.footer{
 		position: relative;

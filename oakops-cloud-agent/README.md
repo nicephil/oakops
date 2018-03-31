@@ -1,2 +1,2 @@
 install:
-pip install flask flask-restful pymysql
+pip install flask flask-restful pymysql flask-cors

@@ -3,6 +3,7 @@
 from flask import Flask, g
 from flask_restful import Api
 from pprint import pprint
+from flask_cors import CORS, cross_origin
 
 import sys 
 reload(sys)
@@ -14,6 +15,7 @@ from resources import OrganizationList
 
 app = Flask(__name__)
 app.config.update(RESTFUL_JSON=dict(ensure_ascii=False))
+CORS(app)
 api = Api(app)
 
 ROOT_URL_v0 = "/agent/cloud/v1/"

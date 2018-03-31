@@ -38,7 +38,7 @@ class OrganizationList(Resource):
         fields = '''o.type as type,o.id as id,o.name as name,o.address as address,o.country as country,o.zone_id as zone_id,o.parent_id as parent_id, 
             p.name as parent_name,o.customer_type as customer_type,o.client_online as client_online,o.device_total as device_total,o.device_online as device_online,
             o.device_offline as device_offline,o.device_unused as device_unused,o.total_bytes as total_bytes, o.status as status, oci.name as nms,
-            ui.email as owner, oci.software_version as software_version'''
+            ui.email as owner, o.sponsor as sponsor, o.edition as edition, oci.software_version as software_version'''
         condParams = []
         condSql = " where o.type = 2 "
         if (search is not None and search.strip() != ''):
@@ -99,6 +99,8 @@ class OrganizationList(Resource):
             item["status"] = row[i];i+=1
             item["nms"] = row[i];i+=1
             item["owner"] = row[i];i+=1
+            item["sponsor"] = row[i];i+=1
+            item["edition"] = row[i];i+=1
             item["software_version"] = row[i];i+=1
             orgs.append(item)
             
