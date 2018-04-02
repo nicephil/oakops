@@ -20,7 +20,6 @@ class OrganizationList(Resource):
         parser.add_argument('search', type =str,location='args', required=False, default = '')
         parser.add_argument('sort', type=str, location='args', required=False, default = 'id')
         parser.add_argument('status', type=int, location='args', required=False, default = None, action='append')
-        parser.add_argument('customer_types', type=int, location='args', required=False, default = None, action='append')
         parser.add_argument('software_versions', type=str, location='args', required=False, default = None, action='append')
         args = parser.parse_args()
         page = args['page']
@@ -28,7 +27,6 @@ class OrganizationList(Resource):
         search = args['search']
         sort = args['sort']
         status = args['status']
-        customer_types = args['customer_types']
         software_versions = args['software_versions']
         
         res = dict()
@@ -36,7 +34,7 @@ class OrganizationList(Resource):
         orgs = []
 
         fields = '''o.type as type,o.id as id,o.name as name,o.address as address,o.country as country,o.zone_id as zone_id,o.parent_id as parent_id, 
-            p.name as parent_name,o.customer_type as customer_type,o.client_online as client_online,o.device_total as device_total,o.device_online as device_online,
+            p.name as parent_name,o.client_online as client_online,o.device_total as device_total,o.device_online as device_online,
             o.device_offline as device_offline,o.device_unused as device_unused,o.total_bytes as total_bytes, o.status as status, oci.name as nms,
             ui.email as owner, o.sponsor as sponsor, o.edition as edition, oci.software_version as software_version'''
         condParams = []
@@ -50,11 +48,6 @@ class OrganizationList(Resource):
             arg_list = ','.join(['%s'] * len(status))
             condSql += " and o.status in (" + arg_list + ")"
             for value in status:
-                condParams.append(value)
-        if (customer_types is not None and len(customer_types) > 0):
-            arg_list = ','.join(['%s'] * len(customer_types))
-            condSql += " and o.customer_type in (" + arg_list + ")"
-            for value in customer_types:
                 condParams.append(value)
         if (software_versions is not None and len(software_versions) > 0):
             arg_list = ','.join(['%s'] * len(software_versions))
@@ -89,7 +82,6 @@ class OrganizationList(Resource):
             item["zone_id"] = row[i];i+=1
             item["parent_id"] = row[i];i+=1
             item["parent_name"] = row[i];i+=1
-            item["customer_type"] = row[i];i+=1
             item["client_online"] = row[i];i+=1
             item["device_total"] = row[i];i+=1
             item["device_online"] = row[i];i+=1
